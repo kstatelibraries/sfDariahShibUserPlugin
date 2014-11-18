@@ -27,20 +27,20 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
   {
     $authenticated = false;
 
-	// if Shibboleth Data is missing, hand back to default auth
+    // if Shibboleth Data is missing, hand back to default auth
     if (NULL === $request)
-	{
+    {
       $authenticated = parent::authenticate($usermail, $password);
       // Load user
       $criteria = new Criteria;
       $criteria->add(QubitUser::EMAIL, $usermail);
       $user = QubitUser::getOne($criteria);
-	}
-	else
-	{
+    }
+    else
+    {
       $params = $request->getPathInfoArray();
-	  if (strlen($params['Shib-Session-Index'])>=8) 
-	  {
+      if (strlen($params['Shib-Session-Index'])>=8) 
+      {
         $authenticated = true;
         // Load user using username or, if one doesn't exist, create it
         $criteria = new Criteria;
@@ -49,12 +49,12 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
         {
           $user = $this->createUserFromShibInfo($request);
         }
-	  }
-	  else
-	  {
-		return false;
-	  }
-	}
+      }
+      else
+      {
+        return false;
+      }
+    }
 
     // Sign in user if authentication was successful
     if ($authenticated)
@@ -69,9 +69,9 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
   protected function createUserFromShibInfo($request)
   {
 
-	$params = $request->getPathInfoArray();
+    $params = $request->getPathInfoArray();
     $usernameparts = explode("@", $params['eppn']);
-	$username = $usernameparts[0];
+    $username = $usernameparts[0];
 
     $user = new QubitUser();
     $user->username = $username;

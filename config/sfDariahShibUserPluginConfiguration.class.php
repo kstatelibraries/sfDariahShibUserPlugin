@@ -29,13 +29,13 @@ class sfDariahShibUserPluginConfiguration extends sfPluginConfiguration
   public function contextLoadFactories(sfEvent $event)
   {
     $context = $event->getSubject();
-    $context->response->addStylesheet('/plugins/sfDariahShibUserPlugin/css/header.css', 'last', array('media' => 'screen'));
+	$context->response->addStylesheet('/plugins/sfDariahShibUserPlugin/css/header.css', 'last', array('media' => 'screen'));
   }
 
 
   public function initialize()
   {
-	$this->dispatcher->connect('context.load_factories', array($this, 'contextLoadFactories'));
+    $this->dispatcher->connect('context.load_factories', array($this, 'contextLoadFactories'));
 
     $enabledModules = sfConfig::get('sf_enabled_modules');
     $enabledModules[] = 'sfDariahShibUserPlugin';
@@ -45,6 +45,8 @@ class sfDariahShibUserPluginConfiguration extends sfPluginConfiguration
     $moduleDirs[$this->rootDir.'/modules'] = false;
     sfConfig::set('sf_module_dirs', $moduleDirs);
 
+    // use our login class
+	sfConfig::set('sf_factory_user', 'sfDariahShibUser');
   }
 }
 
