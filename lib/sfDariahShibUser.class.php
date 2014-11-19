@@ -49,6 +49,7 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
         {
           $user = $this->createUserFromShibInfo($request);
         }
+        $this -> updateUserFromShibInfo($request,$user);
       }
       else
       {
@@ -70,16 +71,42 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
   {
 
     $params = $request->getPathInfoArray();
-    $usernameparts = explode("@", $params['eppn']);
-    $username = $usernameparts[0];
+    $username = $this->generateUserNameFromShibInfo($request);
+	$password = $this->generateRandomPassword();
 
     $user = new QubitUser();
     $user->username = $username;
     $user->email = $params['mail'];
+    $user->setPassword($password);
     $user->save();
 
     return $user;
   }
 
+  protected function updateUserFromShibInfo($request,$user)
+  {
 
+    return true;
+  }
+
+  protected function generateUserNameFromShibInfo($request)
+  {
+
+    $params = $request->getPathInfoArray();
+    // TODO: get the username from API
+    $usernameparts = explode("@", $params['eppn']);
+    $username = $usernameparts[0];
+
+    return $username;
+  }
+
+  protected function generateRandomPassword()
+  {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_.,+=!@&#';
+    $randomPass = 'Yz0';
+    for ($i = 0; $i < 25; $i++) {
+      $randomPass .= $characters[rand(0, strlen($characters) - 1)];
+    }
+    return $randomPass;
+  }
 }

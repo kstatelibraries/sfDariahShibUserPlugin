@@ -19,4 +19,4 @@ TODO
 - assign roles/groups based on Shibboleth data
 - update user data on every login
 - disable password handling
-
+- defer username generation to CENDARI API
