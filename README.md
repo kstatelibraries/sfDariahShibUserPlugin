@@ -1,6 +1,9 @@
 DARIAH Shibboleth authentication plugin for AtoM
 ===================
 
+This plugin enables Shibboleth authentication with AtoM.
+Tested only with **AtoM 2.1**!
+
 Install
 -------------------
 Clone the project to the plugin directory of you AtoM installation and activate it.
@@ -20,13 +23,13 @@ all:
 Features
 -------------------
 - login via Shibboleth
-- create AtoM account from Shibboleth data if it does not yet exist
 - fall back to standard login
+- no password dialogs in user settings
+- create AtoM account from Shibboleth data if it does not yet exist
 - add privileges based on Shibboleth groups
 
 TODO
 -------------------
 - remove roles if not in Shibboleth data
 - update user data on every login
-- disable password handling
 - defer username generation to CENDARI API
