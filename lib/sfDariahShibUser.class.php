@@ -46,7 +46,7 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
         $criteria = new Criteria;
         $criteria->add(QubitUser::EMAIL, $usermail);
         if (null === $user = QubitUser::getOne($criteria))
-        {
+        {     
           $user = $this->createUserFromShibInfo($request);
         }
         $this -> updateUserFromShibInfo($request,$user);
@@ -72,19 +72,23 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
 
     $params = $request->getPathInfoArray();
     $username = $this->generateUserNameFromShibInfo($request);
-	$password = $this->generateRandomPassword();
+    $password = $this->generateRandomPassword();
 
     $user = new QubitUser();
     $user->username = $username;
     $user->email = $params['mail'];
-    $user->setPassword($password);
     $user->save();
+    $user->setPassword($password);
 
     return $user;
   }
 
   protected function updateUserFromShibInfo($request,$user)
   {
+
+    $params = $request->getPathInfoArray();
+
+    $isMemberOf = explode(";", $params['isMemberOf']);
 
     return true;
   }
@@ -109,4 +113,5 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
     }
     return $randomPass;
   }
+
 }

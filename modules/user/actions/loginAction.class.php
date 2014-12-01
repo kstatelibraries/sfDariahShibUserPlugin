@@ -41,7 +41,7 @@ class UserLoginAction extends sfAction
       $this->form->setDefault('next', $request->getReferer());
     }
 
-	$apache_params = $request->getPathInfoArray();
+    $apache_params = $request->getPathInfoArray();
 
     $this->form->setValidator('next', new sfValidatorString);
     $this->form->setWidget('next', new sfWidgetFormInputHidden);
@@ -55,8 +55,8 @@ class UserLoginAction extends sfAction
       'required' => $this->context->i18n->__('You must enter your password'))));
     $this->form->setWidget('password', new sfWidgetFormInputPassword);
 
-	if (strlen($apache_params['Shib-Session-Index'])>=8) 
-	{
+    if (strlen($apache_params['Shib-Session-Index'])>=8) 
+    {
       if ($this->context->user->authenticate($apache_params['mail'],'',$request))
       {
         if (null !== $next = $this->form->getValue('next'))
@@ -65,7 +65,7 @@ class UserLoginAction extends sfAction
         }
         $this->redirect('@homepage');
       }
-	}
+    }
 
     if ($request->isMethod('post'))
     {

@@ -1,4 +1,4 @@
-<?php
+i<?php
 
 /*
  * This file is part of the Dariah Shibboleth auth plugin for AtoM.
@@ -29,7 +29,7 @@ class sfDariahShibUserPluginConfiguration extends sfPluginConfiguration
   public function contextLoadFactories(sfEvent $event)
   {
     $context = $event->getSubject();
-	$context->response->addStylesheet('/plugins/sfDariahShibUserPlugin/css/header.css', 'last', array('media' => 'screen'));
+    $context->response->addStylesheet('/plugins/sfDariahShibUserPlugin/css/header.css', 'last', array('media' => 'screen'));
   }
 
 
@@ -46,7 +46,7 @@ class sfDariahShibUserPluginConfiguration extends sfPluginConfiguration
     sfConfig::set('sf_module_dirs', $moduleDirs);
 
     // use our login class
-	sfConfig::set('sf_factory_user', 'sfDariahShibUser');
+    sfConfig::set('sf_factory_user', 'sfDariahShibUser');
   }
 }
 
