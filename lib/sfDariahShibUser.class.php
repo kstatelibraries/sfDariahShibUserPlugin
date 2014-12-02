@@ -91,42 +91,22 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
     $isMemberOf = explode(";", $params['isMemberOf']);
 
     // read group mapping from config file
-    $SHIBBOLETH_ADMINISTRATOR_GROUPS = explode(';', sfConfig::get('app_shibboleth_administrator_groups'));
-    $SHIBBOLETH_EDITOR_GROUPS = explode(';', sfConfig::get('app_shibboleth_editor_groups'));
-    $SHIBBOLETH_CONTRIBUTOR_GROUPS = explode(';', sfConfig::get('app_shibboleth_contributor_groups'));
-    $SHIBBOLETH_TRANSLATOR_GROUPS = explode(';', sfConfig::get('app_shibboleth_translator_groups'));
+    $mapings = array(
+      'ADMINISTRATOR' => explode(';', sfConfig::get('app_shibboleth_administrator_groups')),
+      'EDITOR'        => explode(';', sfConfig::get('app_shibboleth_editor_groups')),
+      'CONTRIBUTOR'   => explode(';', sfConfig::get('app_shibboleth_contributor_groups')),
+      'TRANSLATOR'    => explode(';', sfConfig::get('app_shibboleth_translator_groups'))
+    );
 
     // for each privilege class, check whether the current user should have it and assign it if not yet assigned
-    if (0 < count(array_intersect($SHIBBOLETH_ADMINISTRATOR_GROUPS,$isMemberOf))) {
-     if (!($user->hasGroup(QubitAclGroup::ADMINISTRATOR_ID))) {
-        $aclUserGroup = new QubitAclUserGroup;
-        $aclUserGroup->userId = $user->id;
-        $aclUserGroup->groupId = QubitAclGroup::ADMINISTRATOR_ID;
-        $aclUserGroup->save();
-      }
-    }
-    if (0 < count(array_intersect($SHIBBOLETH_EDITOR_GROUPS,$isMemberOf))) {
-      if (!($user->hasGroup(QubitAclGroup::EDITOR_ID))) {
-        $aclUserGroup = new QubitAclUserGroup;
-        $aclUserGroup->userId = $user->id;
-        $aclUserGroup->groupId = QubitAclGroup::EDITOR_ID;
-        $aclUserGroup->save();
-      }
-    }
-    if (0 < count(array_intersect($SHIBBOLETH_CONTRIBUTOR_GROUPS,$isMemberOf))) {
-      if (!($user->hasGroup(QubitAclGroup::CONTRIBUTOR_ID))) {
-        $aclUserGroup = new QubitAclUserGroup;
-        $aclUserGroup->userId = $user->id;
-        $aclUserGroup->groupId = QubitAclGroup::CONTRIBUTOR_ID;
-        $aclUserGroup->save();
-      }
-    }
-    if (0 < count(array_intersect($SHIBBOLETH_TRANSLATOR_GROUPS,$isMemberOf))) {
-      if (!($user->hasGroup(QubitAclGroup::TRANSLATOR_ID))) {
-        $aclUserGroup = new QubitAclUserGroup;
-        $aclUserGroup->userId = $user->id;
-        $aclUserGroup->groupId = QubitAclGroup::TRANSLATOR_ID;
-        $aclUserGroup->save();
+    foreach ($mapings as $key => $array) {
+      if (0 < count(array_intersect($array,$isMemberOf))) {
+        if (!($user->hasGroup(constant("QubitAclGroup::${key}_ID")))) {
+          $aclUserGroup = new QubitAclUserGroup;
+          $aclUserGroup->userId = $user->id;
+          $aclUserGroup->groupId = constant("QubitAclGroup::${key}_ID");
+          $aclUserGroup->save();
+        }
       }
     }
 
