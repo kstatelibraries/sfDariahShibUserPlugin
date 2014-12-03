@@ -20,9 +20,21 @@
  * along with Access to Memory (AtoM).  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * User Class handling authentication and user creation from Shibboleth data.
+ *
+ */
 class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
 {
 
+  /**
+   * Performs the actual authentication, calling parent if web request's data is missing
+   *
+   * @param string $usermail the mail address of the user to authenticate (entered or from Shibboleth)
+   * @param string $password the password entered into the login form, empty in case of Shibboleth
+   * @param sfWebRequest $request the current web request
+   *
+   */
   public function authenticate($usermail,$password,$request=NULL)
   {
     $authenticated = false;
@@ -66,7 +78,15 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
     return $authenticated;
   }  
 
-
+  /**
+   * Creates a new AtoM user from Shibboleth data
+   * and assignes a random password
+   *
+   * @param sfWebRequest $request the current web request
+   *
+   * @return QubitUser $user The newly created user.
+   * 
+   */
   protected function createUserFromShibInfo($request)
   {
 
@@ -83,6 +103,13 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
     return $user;
   }
 
+  /**
+   * Updates user's access privileges from Shibboleth data
+   *
+   * @param QubitUser $user the current user
+   * @param sfWebRequest $request the current web request
+   *
+   */
   protected function updateUserFromShibInfo($request,$user)
   {
 
@@ -92,19 +119,19 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
 
     // read group mapping from config file
     $mapings = array(
-      'ADMINISTRATOR' => explode(';', sfConfig::get('app_shibboleth_administrator_groups')),
-      'EDITOR'        => explode(';', sfConfig::get('app_shibboleth_editor_groups')),
-      'CONTRIBUTOR'   => explode(';', sfConfig::get('app_shibboleth_contributor_groups')),
-      'TRANSLATOR'    => explode(';', sfConfig::get('app_shibboleth_translator_groups'))
+      'ADMINISTRATOR_ID' => explode(';', sfConfig::get('app_shibboleth_administrator_groups')),
+      'EDITOR_ID'        => explode(';', sfConfig::get('app_shibboleth_editor_groups')),
+      'CONTRIBUTOR_ID'   => explode(';', sfConfig::get('app_shibboleth_contributor_groups')),
+      'TRANSLATOR_ID'    => explode(';', sfConfig::get('app_shibboleth_translator_groups'))
     );
 
     // for each privilege class, check whether the current user should have it and assign it if not yet assigned
     foreach ($mapings as $key => $array) {
       if (0 < count(array_intersect($array,$isMemberOf))) {
-        if (!($user->hasGroup(constant("QubitAclGroup::${key}_ID")))) {
+        if (!($user->hasGroup(constant("QubitAclGroup::$key")))) {
           $aclUserGroup = new QubitAclUserGroup;
           $aclUserGroup->userId = $user->id;
-          $aclUserGroup->groupId = constant("QubitAclGroup::${key}_ID");
+          $aclUserGroup->groupId = constant("QubitAclGroup::$key");
           $aclUserGroup->save();
         }
       }
@@ -113,6 +140,13 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
     return true;
   }
 
+  /**
+   * Updates user's access privileges from Shibboleth data
+   *
+   * @param sfWebRequest $request the current web request
+   * @return string $username Username
+   *
+   */
   protected function generateUserNameFromShibInfo($request)
   {
 
@@ -124,6 +158,13 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
     return $username;
   }
 
+  /**
+   * Generates a random 25 character password.
+   * An additonal prepended string ensures compliance with tightend AtoM security policy.
+   *
+   * @return string Random String to be used as password.
+   *
+   */
   protected function generateRandomPassword()
   {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_.,+=!@&#';

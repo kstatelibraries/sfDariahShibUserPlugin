@@ -20,8 +20,23 @@
  * along with Access to Memory (AtoM).  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Overwrites upstream class to inject Shibboleth handling 
+ * and pass request down to authentication class.
+ *
+ */
 class UserLoginAction extends sfAction
 {
+  /**
+   * Renders the login dialog, 
+   * calls the login action if Shibboleth data is present
+   * or POST data is sent as a fall back,
+   * redirects the user after successful authentication
+   *
+   * @param sfWebRequest $request The current web request.
+   *
+   * @return void
+   */
   public function execute($request)
   {
     $this->form = new sfForm;

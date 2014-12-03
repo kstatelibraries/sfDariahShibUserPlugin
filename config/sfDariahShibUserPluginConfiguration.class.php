@@ -20,19 +20,36 @@
  * along with Access to Memory (AtoM).  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Main Plugin Class for enabling Shibboleth authentication for AtoM.
+ *
+ */
 class sfDariahShibUserPluginConfiguration extends sfPluginConfiguration
 {
-  public static
-    $summary = 'DARIAH Shibboleth Authentication',
-    $version = '0.0.1';
+  /** 
+   * Short summary for display in AtoM interface. 
+   */
+  public static $summary = 'DARIAH Shibboleth Authentication';
+  /** 
+   * Current version. 
+   */
+  public static $version = '0.0.1';
 
+  /**
+   * Load additional css file for new login link.
+   *
+   */
   public function contextLoadFactories(sfEvent $event)
   {
     $context = $event->getSubject();
     $context->response->addStylesheet('/plugins/sfDariahShibUserPlugin/css/header.css', 'last', array('media' => 'screen'));
   }
 
-
+  /**
+   * Upon initialization, set plugin to active
+   * and inject our login class :php:class:`sfDariahShibUser` into the config
+   *
+   */
   public function initialize()
   {
     $this->dispatcher->connect('context.load_factories', array($this, 'contextLoadFactories'));
