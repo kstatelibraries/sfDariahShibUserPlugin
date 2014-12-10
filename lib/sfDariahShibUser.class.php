@@ -4,6 +4,10 @@
  * This file is part of the Dariah Shibboleth auth plugin for AtoM.
  * It is adopted from upstream code and under AGPL accordingly.
  *
+ * The development of the plugin was made possible by the help of
+ * Jesús García Crespo, Artefactual Systems Inc.
+ * on the AtoM mailing list.
+ *
  * The original file is part of the Access to Memory (AtoM) software.
  *
  * Access to Memory (AtoM) is free software: you can redistribute it and/or modify
@@ -133,6 +137,15 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
           $aclUserGroup->userId = $user->id;
           $aclUserGroup->groupId = constant("QubitAclGroup::$key");
           $aclUserGroup->save();
+        }
+      } else {
+        // remove the user from groups he should not be in
+        if ($user->hasGroup(constant("QubitAclGroup::$key"))) {
+          foreach ($user->aclUserGroups as $membership) {
+            if ($membership->groupId == constant("QubitAclGroup::$key")) {
+              $membership->delete();
+            }
+          }
         }
       }
     }

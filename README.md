@@ -26,10 +26,15 @@ Features
 - fall back to standard login
 - no password dialogs in user settings
 - create AtoM account from Shibboleth data if it does not yet exist
-- add privileges based on Shibboleth groups
+- add and remove privileges based on Shibboleth groups
 
 TODO
 -------------------
-- remove roles if not in Shibboleth data
-- update user data on every login
-- defer username generation to CENDARI API
+- defer username generation to CENDARI API and update on each login
+
+
+Acknoledgement
+-------------------
+The delopment of this plugin was made possbible by the help of
+Jesús García Crespo, Artefactual Systems Inc.
+on the AtoM mailing list
