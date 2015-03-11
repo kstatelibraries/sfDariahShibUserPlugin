@@ -154,17 +154,17 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
   }
 
   /**
-   * Updates user's access privileges from Shibboleth data
+   * Generate a username from the Shibboleth ePPN
    *
    * @param sfWebRequest $request the current web request
-   * @return string $username Username
+   * @return string $username the local part of the ePPN as username
    *
    */
   protected function generateUserNameFromShibInfo($request)
   {
 
     $params = $request->getPathInfoArray();
-    // TODO: get the username from API
+    // Warning: does not support federation!
     $usernameparts = explode("@", $params['eppn']);
     $username = $usernameparts[0];
 

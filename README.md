@@ -17,7 +17,6 @@ all:
   shibboleth_editor_groups: 'shib-editors'
   shibboleth_contributor_groups: 'shib-contributors;shib-atom-contributors'
   shibboleth_translator_groups: 'shib-translators'
-
 ```
 
 Features
@@ -26,11 +25,14 @@ Features
 - fall back to standard login
 - no password dialogs in user settings
 - create AtoM account from Shibboleth data if it does not yet exist
-- add and remove privileges based on Shibboleth groups
+  (uses the local part of the ePPN)
+- add and remove privileges based on Shibboleth groups on each login
 
-TODO
+Limitations
 -------------------
-- defer username generation to CENDARI API and update on each login
+There is currently no support for Shibboleth federation.
+The plugin sets the AtoM username to the local part of the ePPN.
+Thus the plugin does not work reliably, when the local part alone is not unique.
 
 
 Acknoledgement
