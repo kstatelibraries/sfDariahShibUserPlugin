@@ -27,12 +27,9 @@
 
 <?php echo get_component('user', 'aclMenu') ?>
 
-<?php if (0 < $notesCount || !$resource->active): ?>
+<?php if (!$resource->active): ?>
   <div class="messages error">
     <ul>
-      <?php if (0 < $notesCount): ?>
-        <li><?php echo __('This user has %1% notes in the system and therefore it cannot be removed', array('%1%' => $notesCount)) ?></li>
-      <?php endif; ?>
       <?php if (!$resource->active): ?>
         <li><?php echo __('This user is inactive') ?></li>
       <?php endif; ?>
@@ -80,6 +77,15 @@
           </div>
         </div>
       <?php endif; ?>
+    <?php endif; ?>
+
+    <?php if ($sf_context->getConfiguration()->isPluginEnabled('arOaiPlugin')): ?>
+      <div class="field">
+        <h3><?php echo __('OAI-PMH API key') ?></h3>
+        <div>
+          <code><?php echo $oai_api_key ?></code>
+        </div>
+      </div>
     <?php endif; ?>
 
   </section>

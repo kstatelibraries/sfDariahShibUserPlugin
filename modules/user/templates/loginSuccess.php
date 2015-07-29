@@ -51,7 +51,7 @@
           <?php if (!('user' != $sf_request->module || 'login' != $sf_request->action)): ?>
             <?php echo $form->renderHiddenFields() ?>
             <?php echo $form->email->renderRow(array('autofocus' => 'autofocus', 'class' => 'input-block-level')) ?>
-            <?php echo $form->password->renderRow(array('class' => 'input-block-level')) ?>
+            <?php echo $form->password->renderRow(array('class' => 'input-block-level', 'autocomplete' => 'off')) ?>
           <?php endif; ?>
 
 
