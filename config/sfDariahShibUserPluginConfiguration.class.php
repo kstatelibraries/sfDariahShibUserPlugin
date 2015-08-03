@@ -64,6 +64,10 @@ class sfDariahShibUserPluginConfiguration extends sfPluginConfiguration
 
     // use our login class
     sfConfig::set('sf_factory_user', 'sfDariahShibUser');
+
+    // and override session storage to fix session regeneration
+    // issue introduced in AtoM 2.3
+    sfConfig::set('sf_factory_storage', 'sfDariahShibSessionStorage');
   }
 }
 
