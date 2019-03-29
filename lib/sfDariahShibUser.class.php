@@ -100,7 +100,7 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
 
     $user = new QubitUser();
     $user->username = $username;
-    $user->email = $params['mail'];
+    $user->email = $params[sfConfig::get('app_shibboleth_attribute_mail')];
     $user->save();
     $user->setPassword($password);
 
@@ -165,7 +165,7 @@ class sfDariahShibUser extends myUser implements Zend_Acl_Role_Interface
 
     $params = $request->getPathInfoArray();
     // Warning: does not support federation!
-    $usernameparts = explode("@", $params['eppn']);
+    $usernameparts = explode("@", $params[sfConfig::get('app_shibboleth_attribute_eppn')]);
     $username = $usernameparts[0];
 
     return $username;

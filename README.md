@@ -19,6 +19,14 @@ all:
   shibboleth_translator_groups: 'shib-translators'
 ```
 
+In `apps/qubit/config/app.yml` add correct Shibboleth attribute mappings, e.g.
+```
+all:
+  shibboleth_attribute_mail: 'mail'
+  shibboleth_attribute_eppn: 'eppn'
+```
+
+
 Features
 -------------------
 - login via Shibboleth

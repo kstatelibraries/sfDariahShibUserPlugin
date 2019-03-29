@@ -72,7 +72,7 @@ class UserLoginAction extends sfAction
 
     if (strlen($apache_params['Shib-Session-Index'])>=8) 
     {
-      if ($this->context->user->authenticate($apache_params['mail'],'',$request))
+      if ($this->context->user->authenticate($apache_params[sfConfig::get('app_shibboleth_attribute_mail')],'',$request))
       {
         if (null !== $next = $this->form->getValue('next'))
         {
