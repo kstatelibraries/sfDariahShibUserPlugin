@@ -2,7 +2,7 @@
 
   <div id="user-menu">
 
-    <a class="top-item top-loginlink" href="<?php echo url_for(array('module' => 'user', 'action' => 'login')) ?>" ><?php echo __('Log in') ?></a>
+    <a class="top-item top-loginlink" href="<?php echo url_for(array('module' => 'user', 'action' => 'login')) ?>" ><?php echo __('Admin Log in') ?></a>
 
   </div>
 
