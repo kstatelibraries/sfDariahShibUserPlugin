@@ -91,6 +91,18 @@ EOF
           ->label(__('Allowed languages for translation'))
           ->renderRow(array('class' => 'form-autocomplete')) ?>
 
+        <?php if ($restEnabled): ?>
+          <?php echo $form->restApiKey
+            ->label(__('REST API access key'. ((isset($restApiKey)) ? ': <code>'. $restApiKey .'</code>' : '')))
+            ->renderRow() ?>
+        <?php endif; ?>
+
+        <?php if ($oaiEnabled): ?>
+          <?php echo $form->oaiApiKey
+            ->label(__('OAI-PMH API access key'. ((isset($oaiApiKey)) ? ': <code>'. $oaiApiKey .'</code>' : '')))
+            ->renderRow() ?>
+        <?php endif; ?>
+
       </fieldset> <!-- /#groupsAndPermissions -->
 
     </section>
