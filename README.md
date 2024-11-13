@@ -1,6 +1,12 @@
 DARIAH Shibboleth authentication plugin for AtoM
 ===================
 
+Archived
+-------------------
+We have archived this and switched to the native CAS authentication locally and no longer are using this.
+
+General
+-------------------
 This plugin enables Shibboleth authentication with AtoM.
 Tested only with **AtoM 2.1**!
 
